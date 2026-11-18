@@ -47,9 +47,14 @@ class mustache {
      */
     public function __construct(array $options = []) {
         global $CFG;
-        require_once($CFG->dirroot.'/lib/mustache/src/Mustache/Autoloader.php');
-
-        Mustache_Autoloader::register();
+        if (file_exists($CFG->dirroot . '/lib/mustache/src/Mustache/Autoloader.php')) {
+            // Moodle 5.1 and earlier bundle Mustache 2.x with its own autoloader.
+            require_once($CFG->dirroot . '/lib/mustache/src/Mustache/Autoloader.php');
+            Mustache_Autoloader::register();
+        } else {
+            // Moodle 5.2 and later autoload Mustache 3.x, which provides aliases for the legacy class names.
+            require_once($CFG->dirroot . '/lib/mustache/src/compat.php');
+        }
 
         $default = [
             'cache' => make_localcache_directory('tool_pluginskel/mustache/'),
