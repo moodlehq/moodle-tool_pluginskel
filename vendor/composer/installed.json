@@ -380,6 +380,6 @@
             "install-path": "../symfony/yaml"
         }
     ],
-    "dev": true,
+    "dev": false,
     "dev-package-names": []
 }
